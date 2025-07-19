@@ -221,35 +221,10 @@ class VirtualKeyboardCorrupted(VirtualKeyboard):
         )
         self.bind_keyboard_events()
 
-        self.special_corrupted_keys: Dict[kl.Key, str] = { 
-            Key.Q: "#a000b4",
-            Key.W: "#a000b4",
-            Key.E: "#a000b4",
-            Key.R: "#a000b4",
-            Key.T: "#a000b4",
-            Key.Y: "#a000b4",
-            Key.U: "#a000b4",
-            Key.I: "#a000b4",
-            Key.O: "#a000b4",
-            Key.P: "#a000b4",
-
-            Key.A: "#7a0089",      
-            Key.S: "#7a0089",      
-            Key.D: "#7a0089",              
-            Key.F: "#7a0089",
-            Key.G: "#7a0089",
-            Key.H: "#7a0089",               
-            Key.J: "#7a0089",               
-            Key.K: "#7a0089",               
-            Key.L: "#7a0089",               
-
-            Key.Z: "#550056",
-            Key.X: "#550056",
-            Key.C: "#550056",
-            Key.V: "#550056",
-            Key.B: "#550056",
-            Key.N: "#550056",
-            Key.M: "#550056",
+        self.special_corrupted_keys: Dict[kl.Key, str] = {
+            **{k: "#a000b4" for k in [Key.Q, Key.W, Key.E, Key.R, Key.T, Key.Y, Key.U, Key.I, Key.O, Key.P]},
+            **{k: "#7a0089" for k in [Key.A, Key.S, Key.D, Key.F, Key.G, Key.H, Key.J, Key.K, Key.L]},
+            **{k: "#550056" for k in [Key.Z, Key.X, Key.C, Key.V, Key.B, Key.N, Key.M]},
         }
 
         for key, color in self.special_corrupted_keys.items():
@@ -396,8 +371,9 @@ class VirtualKeyboardCorruptedBackSpace(VirtualKeyboardCorrupted):
         self.keyboard.update_key(kl.Key.BACKSPACE, self.custom_keys_style)
 
     def translate_corrupted_keys(self, symbol: str) -> str:
+        # Mapeamos a una tecla inexistente para que no reaccione
         if symbol == "BackSpace":
-            return "None"  # Mapeamos a una tecla inexistente para que no reaccione
+            return "None"  
         return symbol
     
     def on_key_release(self, event) -> None:
@@ -439,4 +415,3 @@ class VirtualKeyboardCorruptedBackSpace(VirtualKeyboardCorrupted):
         
         print(f"Key released: {event.keysym}")
         print(f"Original: {matching_key} → Corrupto: {translated}")
-    
